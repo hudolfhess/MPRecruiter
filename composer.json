@@ -1,0 +1,6 @@
+{
+    "name": "MPRecruiter",
+    "require": {
+        "zendframework/zendframework": "^2.5"
+    }
+}
