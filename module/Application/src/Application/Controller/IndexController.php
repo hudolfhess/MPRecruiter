@@ -1,14 +1,8 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Application\Controller;
 
+use Application\Form\RegisterForm;
+use Application\Service\RegisterService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -16,10 +10,59 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $data = array(
-            'result' => $_SERVER
-        );
+        $jobId = 1;
 
-        return new ViewModel($data);
+        $objectManager = $this
+            ->getServiceLocator()
+            ->get('Doctrine\ORM\EntityManager');
+
+        $jobRespository = $objectManager->getRepository('\Application\Entity\Job');
+        $job = $jobRespository->find($jobId);
+
+        if ($job) {
+            $addFields = $job->getFieldQuestions();
+
+            $form = new RegisterForm($addFields);
+            $form->setData(
+                $this->params()->fromPost()
+            );
+
+            if ($this->getRequest()->getMethod() == 'POST') {
+                /**
+                 * @var $registerService RegisterService
+                 */
+                $registerService = $this->getServiceLocator()->get('RegisterService');
+                $registerService->setJob($job);
+                $registerService->setForm($form);
+
+                if ($registerService->isValid()) {
+                    $register = $registerService->save();
+
+                    if ($register) {
+                        return $this->redirect()->toUrl('application/index/success');
+                    }
+                }
+            }
+
+            return new ViewModel(
+                array(
+                    'form' => $form,
+                    'job' => $job,
+                    'addFields' => array_keys($addFields)
+                )
+            );
+        } else {
+            return $this->redirect()->toUrl('application/index/error');
+        }
+    }
+
+    public function erroAction()
+    {
+        return new ViewModel();
+    }
+
+    public function successAction()
+    {
+        return new ViewModel();
     }
 }

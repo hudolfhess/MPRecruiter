@@ -94,8 +94,8 @@ class IndexControllerTest extends AbstractControllerTestCase
         $data = $this->_getData();
         $result = $this->_getResult($data);
 
-        $this->assertEquals('1', count($result->emails));
-        $this->assertEquals('generic', $result->emails[0]);
+        $this->assertEquals('1', count($result->rules));
+        $this->assertEquals('__default', $result->rules[0]);
     }
 
     public function testBackend()
@@ -108,8 +108,8 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('1', count($result->emails));
-        $this->assertEquals('backend', $result->emails[0]);
+        $this->assertEquals('1', count($result->rules));
+        $this->assertEquals('backend', $result->rules[0]);
     }
 
     public function testFrondend()
@@ -123,8 +123,8 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('1', count($result->emails));
-        $this->assertEquals('frontend', $result->emails[0]);
+        $this->assertEquals('1', count($result->rules));
+        $this->assertEquals('frontend', $result->rules[0]);
     }
 
     public function testMobile()
@@ -137,8 +137,8 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('1', count($result->emails));
-        $this->assertEquals('mobile', $result->emails[0]);
+        $this->assertEquals('1', count($result->rules));
+        $this->assertEquals('mobile', $result->rules[0]);
     }
 
     public function testMobileAndFrontend()
@@ -154,9 +154,9 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('2', count($result->emails));
-        $this->assertEquals(true, in_array('mobile', $result->emails));
-        $this->assertEquals(true, in_array('frontend', $result->emails));
+        $this->assertEquals('2', count($result->rules));
+        $this->assertEquals(true, in_array('mobile', $result->rules));
+        $this->assertEquals(true, in_array('frontend', $result->rules));
 
     }
 
@@ -172,9 +172,9 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('2', count($result->emails));
-        $this->assertEquals(true, in_array('mobile', $result->emails));
-        $this->assertEquals(true, in_array('backend', $result->emails));
+        $this->assertEquals('2', count($result->rules));
+        $this->assertEquals(true, in_array('mobile', $result->rules));
+        $this->assertEquals(true, in_array('backend', $result->rules));
     }
 
     public function testFrontendAndBackend()
@@ -190,9 +190,9 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('2', count($result->emails));
-        $this->assertEquals(true, in_array('frontend', $result->emails));
-        $this->assertEquals(true, in_array('backend', $result->emails));
+        $this->assertEquals('2', count($result->rules));
+        $this->assertEquals(true, in_array('frontend', $result->rules));
+        $this->assertEquals(true, in_array('backend', $result->rules));
     }
 
     public function testAll()
@@ -210,10 +210,10 @@ class IndexControllerTest extends AbstractControllerTestCase
         );
         $result = $this->_getResult($data);
 
-        $this->assertEquals('3', count($result->emails));
-        $this->assertEquals(true, in_array('mobile', $result->emails));
-        $this->assertEquals(true, in_array('frontend', $result->emails));
-        $this->assertEquals(true, in_array('backend', $result->emails));
+        $this->assertEquals('3', count($result->rules));
+        $this->assertEquals(true, in_array('mobile', $result->rules));
+        $this->assertEquals(true, in_array('frontend', $result->rules));
+        $this->assertEquals(true, in_array('backend', $result->rules));
     }
 
 }

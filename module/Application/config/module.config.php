@@ -60,10 +60,23 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' => array(
+            'RegisterService' => function($serviceManager) {
+                $registerService = new \Application\Service\RegisterService();
+                $registerService->setServiceLocator($serviceManager);
+
+                return $registerService;
+            },
+            'EmailService' => function($serviceManager) {
+                $emailService = new \Application\Service\EmailService();
+                $emailService->setServiceLocator($serviceManager);
+
+                return $emailService;
+            }
+        ),
     ),
-    /*
     'translator' => array(
-        'locale' => 'en_US',
+        'locale' => 'pt_BR',
         'translation_file_patterns' => array(
             array(
                 'type'     => 'gettext',
@@ -72,7 +85,6 @@ return array(
             ),
         ),
     ),
-    */
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController'
@@ -101,4 +113,18 @@ return array(
             ),
         ),
     ),
+    'doctrine' => array(
+        'driver' => array(
+            'application_entities' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Application/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'Application\Entity' => 'application_entities'
+                )
+            )
+        )
+    )
 );
